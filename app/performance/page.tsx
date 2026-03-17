@@ -22,10 +22,11 @@ export default function PerformancePage() {
   const pathRef = useRef<SVGPathElement>(null);
 
   useEffect(() => {
-    const fetchProgress = async () => {
+    const init = async () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return;
 
+      // Initial fetch
       const { data } = await supabase
         .from("user_progress")
         .select("*")
@@ -34,8 +35,22 @@ export default function PerformancePage() {
       
       if (data) setProgress(data);
       setLoading(false);
+
+      // Real-time subscription
+      const channel = supabase
+        .channel(`performance:${user.id}`)
+        .on(
+          "postgres_changes",
+          { event: "*", schema: "public", table: "user_progress", filter: `user_id=eq.${user.id}` },
+          (payload) => {
+            setProgress(payload.new as UserProgress);
+          }
+        )
+        .subscribe();
+
+      return () => { supabase.removeChannel(channel); };
     };
-    fetchProgress();
+    init();
   }, []);
 
   useGSAP(() => {
@@ -57,16 +72,9 @@ export default function PerformancePage() {
       delay: 0.5,
     });
 
-    // Animate stats cards
-    gsap.from(".stat-card", {
-      y: 50,
-      opacity: 0,
-      duration: 0.8,
-      stagger: 0.2,
-      ease: "back.out(1.7)",
-      delay: 0.2,
-    });
-  }, [loading]);
+    // Re-run animation if progress significantly changes
+    // (This is triggered by the dependency array)
+  }, [loading, progress?.problems_solved]);
 
   if (loading) {
     return (
@@ -79,6 +87,20 @@ export default function PerformancePage() {
   const accuracy = progress?.quiz_questions_total 
     ? Math.round((progress.quiz_questions_correct / progress.quiz_questions_total) * 100) 
     : 0;
+
+  // Calculate dynamic path based on progress
+  const generatePath = () => {
+    const easy = progress?.easy_solved ?? 0;
+    const medium = progress?.medium_solved ?? 0;
+    const hard = progress?.hard_solved ?? 0;
+    
+    // Scale points (max height 180, min 20)
+    const p1 = 180 - Math.min(60, easy * 5);
+    const p2 = p1 - Math.min(60, medium * 10);
+    const p3 = p2 - Math.min(40, hard * 15);
+    
+    return `M 0 180 Q 50 ${p1} 150 ${p2} T 300 ${p3} T 400 ${Math.max(10, p3 - 10)}`;
+  };
 
   return (
     <main className="min-h-screen bg-[#010101] text-white pb-24 font-sans">
@@ -128,7 +150,7 @@ export default function PerformancePage() {
               {/* The "Shooting" Path */}
               <path
                 ref={pathRef}
-                d="M 0 180 Q 50 170 100 120 T 200 100 T 300 40 T 400 20"
+                d={generatePath()}
                 fill="none"
                 stroke="url(#graphGradient)"
                 strokeWidth="4"
@@ -144,7 +166,7 @@ export default function PerformancePage() {
               </defs>
             </svg>
 
-            {/* Glowing particle at the end of the line (placeholder for more complex logic) */}
+            {/* Glowing particle at the end of the line */}
             <div className="absolute top-0 right-0 size-4 bg-fuchsia-500 rounded-full blur-[6px] animate-pulse" />
           </div>
 
