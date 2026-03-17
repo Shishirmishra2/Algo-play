@@ -13,6 +13,7 @@ import { useState, useEffect } from "react";
 import { getUserJourney, getSubjectDisplayText } from "@/lib/userPreferences";
 import { supabase } from "@/lib/supabase";
 import { BADGE_DEFINITIONS, type UserProgress, type UserBadge } from "@/lib/userProgress";
+import GameCarousel from "@/components/GameCarousel";
 
 export default function Dashboard() {
   const [subjectDisplay, setSubjectDisplay] = useState("Data Structure & Algorithms");
@@ -195,41 +196,21 @@ export default function Dashboard() {
             </div>
           </div>
 
-          {/* Suggested Games */}
           <div>
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between mb-2 px-1">
               <h3 className="font-semibold text-xl">Suggested Games</h3>
               <Link href="/games" className="text-purple-400 cursor-pointer text-sm">See All</Link>
             </div>
-            <div className="pt-4 flex items-center justify-start gap-4 overflow-x-auto pb-4 custom-scrollbar">
-              {[
+            
+            <GameCarousel 
+              games={[
                 { id: "tictactoe", name: "Tic-Tac-Toe", img: "/images/tictactoe.png", tag: "Logic" },
                 { id: "connect4", name: "Connect Four", img: "/images/connect4.png", tag: "Strategy" },
                 { id: "minesweeper", name: "Minesweeper", img: "/images/minesweeper.png", tag: "Classic" },
                 { id: "sudoku", name: "Sudoku", img: "/images/sudoku.png", tag: "Puzzle" },
                 { id: "uno", name: "UNO", img: "/images/uno.png", tag: "Cards" },
-              ].map((game) => (
-                <Link
-                  key={game.id}
-                  href={`/games/${game.id}`}
-                  className="relative rounded-2xl shrink-0 overflow-hidden group"
-                  style={{ width: 130, height: 140 }}
-                >
-                  <Image
-                    src={game.img}
-                    alt={game.name}
-                    width={130}
-                    height={140}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-                  <div className="absolute bottom-2 left-0 right-0 px-2 text-center">
-                    <span className="font-bold text-xs text-white block leading-tight">{game.name}</span>
-                    <span className="text-[10px] text-purple-300">{game.tag}</span>
-                  </div>
-                </Link>
-              ))}
-            </div>
+              ]} 
+            />
           </div>
 
           {/* Quiz Banner */}
