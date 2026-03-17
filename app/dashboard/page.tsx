@@ -78,28 +78,36 @@ export default function Dashboard() {
           <div>
             <div className="flex items-center justify-between">
               <h3 className="font-semibold text-xl">Suggested Games</h3>
-              <h3 className="text-purple-400 cursor-pointer">See All</h3>
+              <Link href="/games" className="text-purple-400 cursor-pointer text-sm">See All</Link>
             </div>
-            <div className="pt-4 flex items-center justify-start gap-2 overflow-hidden mask-r-to-105%">
-              {[1, 2, 3, 4].map((i) => (
-                <div
-                  key={i}
-                  className="relative rounded-2xl shrink-0 overflow-hidden"
+            <div className="pt-4 flex items-center justify-start gap-3 overflow-x-auto pb-2 scrollbar-hide">
+              {[
+                { id: "tictactoe", name: "Tic-Tac-Toe", img: "/images/tictactoe.png", tag: "Logic" },
+                { id: "connect4", name: "Connect Four", img: "/images/connect4.png", tag: "Strategy" },
+                { id: "minesweeper", name: "Minesweeper", img: "/images/minesweeper.png", tag: "Classic" },
+                { id: "sudoku", name: "Sudoku", img: "/images/sudoku.png", tag: "Puzzle" },
+                { id: "uno", name: "UNO", img: "/images/uno.png", tag: "Cards" },
+              ].map((game) => (
+                <Link
+                  key={game.id}
+                  href={`/games/${game.id}`}
+                  className="relative rounded-2xl shrink-0 overflow-hidden group"
+                  style={{ width: 130, height: 140 }}
                 >
                   <Image
-                    src={"/images/game.png"}
-                    alt="game"
-                    width={140}
+                    src={game.img}
+                    alt={game.name}
+                    width={130}
                     height={140}
-                    className="mask-b-to-130%"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   />
-                  <div className="absolute bottom-1 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center">
-                    <span className="font-bold">Monopoly</span>
-                    <span className="text-xs whitespace-nowrap text-neutral-300">
-                      12 Problems Solved
-                    </span>
+                  {/* Gradient overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                  <div className="absolute bottom-2 left-0 right-0 px-2 text-center">
+                    <span className="font-bold text-xs text-white block leading-tight">{game.name}</span>
+                    <span className="text-[10px] text-purple-300">{game.tag}</span>
                   </div>
-                </div>
+                </Link>
               ))}
             </div>
           </div>
