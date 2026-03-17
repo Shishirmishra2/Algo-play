@@ -60,10 +60,13 @@ export default function Dashboard() {
               <GameControllerIcon size={22} />
               Games
             </Link>
-            <div className="bg-white text-black font-semibold flex items-center gap-1 px-4 sm:px-6 py-3 sm:py-4 text-sm sm:text-lg text-center rounded-xl">
+            <Link
+              href="/problems"
+              className="bg-white text-black font-semibold flex items-center gap-1 px-4 sm:px-6 py-3 sm:py-4 text-sm sm:text-lg text-center rounded-xl"
+            >
               <CodeIcon size={22} />
               Problems
-            </div>
+            </Link>
             <div className="bg-white text-black font-semibold flex items-center gap-1 px-4 sm:px-6 py-3 sm:py-4 text-sm sm:text-lg text-center rounded-xl">
               <LightbulbIcon size={22} />
               Learn
