@@ -1,4 +1,4 @@
-import { supabase } from "./supabase";
+import { supabase as defaultClient } from "./supabase";
 
 // ─── Badge definitions ──────────────────────────────────────────────────────
 export interface Badge {
@@ -58,7 +58,7 @@ export interface UserProgress {
   easy_solved: number;
   medium_solved: number;
   hard_solved: number;
-  updated_at?: string;
+  last_updated_at?: string;
 }
 
 export interface UserBadge {
@@ -67,7 +67,7 @@ export interface UserBadge {
 }
 
 // ─── Fetch progress ──────────────────────────────────────────────────────────
-export const getProgress = async (userId: string): Promise<UserProgress | null> => {
+export const getProgress = async (userId: string, supabase: any = defaultClient): Promise<UserProgress | null> => {
   const { data, error } = await supabase
     .from("user_progress")
     .select("*")
@@ -83,7 +83,7 @@ export const getProgress = async (userId: string): Promise<UserProgress | null> 
 };
 
 // ─── Fetch badges ────────────────────────────────────────────────────────────
-export const getBadges = async (userId: string): Promise<UserBadge[]> => {
+export const getBadges = async (userId: string, supabase: any = defaultClient): Promise<UserBadge[]> => {
   const { data, error } = await supabase
     .from("user_badges")
     .select("badge_id, earned_at")
@@ -97,7 +97,7 @@ export const getBadges = async (userId: string): Promise<UserBadge[]> => {
 };
 
 // ─── Award badge (no-op if already earned) ───────────────────────────────────
-const awardBadge = async (userId: string, badgeId: string) => {
+const awardBadge = async (userId: string, badgeId: string, supabase: any = defaultClient) => {
   await supabase
     .from("user_badges")
     .upsert({ user_id: userId, badge_id: badgeId }, { onConflict: "user_id,badge_id" });
@@ -107,10 +107,11 @@ const awardBadge = async (userId: string, badgeId: string) => {
 export const updateQuizProgress = async (
   userId: string,
   correct: number,
-  total: number
+  total: number,
+  supabase: any = defaultClient
 ): Promise<void> => {
   // Fetch existing or start fresh
-  const existing = await getProgress(userId);
+  const existing = await getProgress(userId, supabase);
 
   const newQuizzesTaken = (existing?.quizzes_taken ?? 0) + 1;
   const newCorrect = (existing?.quiz_questions_correct ?? 0) + correct;
@@ -126,7 +127,7 @@ export const updateQuizProgress = async (
       easy_solved: existing?.easy_solved ?? 0,
       medium_solved: existing?.medium_solved ?? 0,
       hard_solved: existing?.hard_solved ?? 0,
-      updated_at: new Date().toISOString(),
+      last_updated_at: new Date().toISOString(),
     },
     { onConflict: "user_id" }
   );
@@ -134,18 +135,19 @@ export const updateQuizProgress = async (
   // Check and award badges
   const pct = total > 0 ? (correct / total) * 100 : 0;
 
-  if (newQuizzesTaken === 1) await awardBadge(userId, "first_quiz");
-  if (newQuizzesTaken >= 5) await awardBadge(userId, "quiz_master");
-  if (pct >= 80) await awardBadge(userId, "quiz_ace");
-  if (pct >= 90) await awardBadge(userId, "top_scorer");
+  if (newQuizzesTaken === 1) await awardBadge(userId, "first_quiz", supabase);
+  if (newQuizzesTaken >= 5) await awardBadge(userId, "quiz_master", supabase);
+  if (pct >= 80) await awardBadge(userId, "quiz_ace", supabase);
+  if (pct >= 90) await awardBadge(userId, "top_scorer", supabase);
 };
 
 // ─── Update progress after solving a problem ─────────────────────────────────
 export const updateProblemsSolved = async (
   userId: string,
-  count: number = 1
+  count: number = 1,
+  supabase: any = defaultClient
 ): Promise<void> => {
-  const existing = await getProgress(userId);
+  const existing = await getProgress(userId, supabase);
   const newSolved = (existing?.problems_solved ?? 0) + count;
 
   await supabase.from("user_progress").upsert(
@@ -158,11 +160,11 @@ export const updateProblemsSolved = async (
       easy_solved: existing?.easy_solved ?? 0,
       medium_solved: existing?.medium_solved ?? 0,
       hard_solved: existing?.hard_solved ?? 0,
-      updated_at: new Date().toISOString(),
+      last_updated_at: new Date().toISOString(),
     },
     { onConflict: "user_id" }
   );
 
-  if (newSolved === 1) await awardBadge(userId, "first_problem");
-  if (newSolved >= 5) await awardBadge(userId, "problem_solver");
+  if (newSolved === 1) await awardBadge(userId, "first_problem", supabase);
+  if (newSolved >= 5) await awardBadge(userId, "problem_solver", supabase);
 };

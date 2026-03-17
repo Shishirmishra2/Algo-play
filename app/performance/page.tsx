@@ -73,8 +73,7 @@ export default function PerformancePage() {
     });
 
     // Re-run animation if progress significantly changes
-    // (This is triggered by the dependency array)
-  }, [loading, progress?.problems_solved]);
+  }, [loading, progress?.problems_solved, progress?.quiz_questions_correct, progress?.quiz_questions_total]);
 
   if (loading) {
     return (

@@ -32,9 +32,9 @@ export async function POST(request: NextRequest) {
       if (typeof correct !== "number" || typeof total !== "number") {
         return NextResponse.json({ error: "correct and total required" }, { status: 400 });
       }
-      await updateQuizProgress(user.id, correct, total);
+      await updateQuizProgress(user.id, correct, total, supabase);
     } else if (type === "problem") {
-      await updateProblemsSolved(user.id, problemCount ?? 1);
+      await updateProblemsSolved(user.id, problemCount ?? 1, supabase);
     } else {
       return NextResponse.json({ error: "type must be quiz or problem" }, { status: 400 });
     }
