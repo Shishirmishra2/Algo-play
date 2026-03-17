@@ -17,7 +17,7 @@ export default function Navbar() {
           <HouseIcon size={32} />
         </Link>
         <Link
-          href="/dashboard"
+          href="/performance"
           className="text-white hover:text-purple-300"
         >
           <ChartLineUpIcon size={32} />
