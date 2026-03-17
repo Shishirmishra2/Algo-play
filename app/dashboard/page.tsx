@@ -201,7 +201,7 @@ export default function Dashboard() {
               <h3 className="font-semibold text-xl">Suggested Games</h3>
               <Link href="/games" className="text-purple-400 cursor-pointer text-sm">See All</Link>
             </div>
-            <div className="pt-4 flex items-center justify-start gap-3 overflow-x-auto pb-2 scrollbar-hide">
+            <div className="pt-4 flex items-center justify-start gap-4 overflow-x-auto pb-4 custom-scrollbar">
               {[
                 { id: "tictactoe", name: "Tic-Tac-Toe", img: "/images/tictactoe.png", tag: "Logic" },
                 { id: "connect4", name: "Connect Four", img: "/images/connect4.png", tag: "Strategy" },
