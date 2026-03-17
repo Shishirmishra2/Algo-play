@@ -27,44 +27,44 @@ export default function Dashboard() {
   return (
     <section className="">
       <div className="h-screen">
-        <div className="relative bg-gradient-to-b rounded-b-4xl from-[#2A0072] to-[#8F1EEF] flex flex-col gap-4 items-center justify-center h-2/5">
-          <h1 className="text-3xl">
+        <div className="relative bg-gradient-to-b rounded-b-4xl from-[#2A0072] to-[#8F1EEF] flex flex-col gap-4 items-center justify-center" style={{minHeight: '38%'}}>
+          <h1 className="text-2xl sm:text-3xl">
             <span className="font-semibold">Algo</span>Play
           </h1>
-          <p className="font-medium px-3 py-1.5 rounded-full border-2">
+          <p className="font-medium px-3 py-1.5 rounded-full border-2 text-sm sm:text-base">
             {subjectDisplay}
           </p>
-          <div className="pt-6 flex gap-15 justify-between items-center">
-            <div className="flex-1 flex flex-col gap-2 font-bold">
+          <div className="pt-3 sm:pt-6 flex gap-8 sm:gap-15 justify-between items-center w-full px-4 sm:px-8">
+            <div className="flex-1 flex flex-col gap-1 sm:gap-2 font-bold text-sm sm:text-base">
               <p className="text-lime-500">84 Easy</p>
               <p className="text-yellow-400">30 Medium</p>
               <p className="text-red-400">9 Hard</p>
             </div>
-            <div className="flex-1 shrink-0 text-center relatve rounded-full size-40 flex flex-col justify-center items-center">
-              <span className="font-bold text-lg z-10">123/200</span>
-              <span className="text-sm z-10">Questions Solved</span>
-              <div className="absolute size-40 rounded-full bg-conic from-fuchsia-500 to-white from-40% z-1" />
-              <div className="absolute size-35 rounded-full bg-purple-700 z-2" />
+            <div className="flex-1 shrink-0 text-center relatve rounded-full size-32 sm:size-40 flex flex-col justify-center items-center">
+              <span className="font-bold text-base sm:text-lg z-10">123/200</span>
+              <span className="text-xs z-10">Questions Solved</span>
+              <div className="absolute size-32 sm:size-40 rounded-full bg-conic from-fuchsia-500 to-white from-40% z-1" />
+              <div className="absolute size-28 sm:size-35 rounded-full bg-purple-700 z-2" />
             </div>
             <div className="flex-1 flex flex-col justify-center items-center">
-              <Image src={medal} alt="medal" className="size-16" />
-              <span className="font-bold text-lg">2/5</span>
-              <span className="text-sm">Badges</span>
+              <Image src={medal} alt="medal" className="size-12 sm:size-16" />
+              <span className="font-bold text-base sm:text-lg">2/5</span>
+              <span className="text-xs sm:text-sm">Badges</span>
             </div>
           </div>
-          <div className="absolute left-1/2 -translate-x-1/2 -bottom-10 flex items-center justify-between gap-2">
+          <div className="absolute left-1/2 -translate-x-1/2 -bottom-8 sm:-bottom-10 flex items-center justify-between gap-2">
             <Link
               href="/games"
-              className="bg-white text-black font-semibold flex items-center gap-1 px-6 py-4 text-lg text-center rounded-xl"
+              className="bg-white text-black font-semibold flex items-center gap-1 px-4 sm:px-6 py-3 sm:py-4 text-sm sm:text-lg text-center rounded-xl"
             >
               <GameControllerIcon size={22} />
               Games
             </Link>
-            <div className="bg-white text-black font-semibold flex items-center gap-1 px-6 py-4 text-lg text-center rounded-xl">
+            <div className="bg-white text-black font-semibold flex items-center gap-1 px-4 sm:px-6 py-3 sm:py-4 text-sm sm:text-lg text-center rounded-xl">
               <CodeIcon size={22} />
               Problems
             </div>
-            <div className="bg-white text-black font-semibold flex items-center gap-1 px-6 py-4 text-lg text-center rounded-xl">
+            <div className="bg-white text-black font-semibold flex items-center gap-1 px-4 sm:px-6 py-3 sm:py-4 text-sm sm:text-lg text-center rounded-xl">
               <LightbulbIcon size={22} />
               Learn
             </div>

@@ -45,11 +45,11 @@ export default function Step2({ onSelectionChange }: Step2Props) {
 
   return (
     <>
-      <Image src={logo} alt="logo" className="size-40" />
-      <h1 className="-mt-18 text-3xl font-semibold">
+      <Image src={logo} alt="logo" className="size-28 sm:size-40" />
+      <h1 className="-mt-10 sm:-mt-18 text-2xl sm:text-3xl font-semibold">
         Choose Your <span className="font-bold text-purple-300">Journey</span>
       </h1>
-      <div className="mt-10 flex flex-col gap-6">
+      <div className="mt-6 sm:mt-10 flex flex-col gap-4 sm:gap-6 w-full px-4 sm:px-0">
         {subjects.map((subject) => (
           <Label
             key={subject.id}

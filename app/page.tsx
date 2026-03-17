@@ -85,7 +85,7 @@ export default function Home() {
             <div ref={dot3Ref} className="h-3 bg-purple-500 rounded-full" />
           </div>
           <Button
-            className="w-80 h-12"
+            className="w-full sm:w-80 h-12"
             variant={"secondary"}
             onClick={handleNext}
             disabled={

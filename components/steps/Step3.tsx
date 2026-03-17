@@ -52,17 +52,17 @@ export default function Step3({ onSelectionChange }: Step3Props) {
 
   return (
     <>
-      <Image src={logo} alt="logo" className="size-40" />
-      <h1 className="-mt-18 text-3xl font-semibold">
+      <Image src={logo} alt="logo" className="size-28 sm:size-40" />
+      <h1 className="-mt-10 sm:-mt-18 text-2xl sm:text-3xl font-semibold">
         Time to <span className="font-bold text-purple-300">Self-Rank!</span>
       </h1>
-      <div className="mt-8 flex flex-col gap-8 items-center justify-center">
-        <div className="flex gap-8">
+      <div className="mt-4 sm:mt-8 flex flex-col gap-4 sm:gap-8 items-center justify-center w-full px-4 sm:px-0">
+        <div className="flex gap-4 sm:gap-8 w-full">
           {difficulties.slice(0, 2).map((difficulty) => (
             <div
               key={difficulty.id}
               onClick={() => setSelectedDifficulty(difficulty.id)}
-              className={`size-50 flex flex-col gap-1 items-center justify-center text-2xl border-2 rounded-2xl ${getCardStyle(
+              className={`flex-1 sm:size-50 h-32 sm:h-auto flex flex-col gap-1 items-center justify-center text-xl sm:text-2xl border-2 rounded-2xl ${getCardStyle(
                 difficulty.id
               )}`}
             >
@@ -70,7 +70,7 @@ export default function Step3({ onSelectionChange }: Step3Props) {
                 {Array.from({ length: difficulty.stars }).map((_, index) => (
                   <StarIcon
                     key={index}
-                    size={32}
+                    size={28}
                     weight="fill"
                     fill={getStarColor(difficulty.id)}
                   />
@@ -82,7 +82,7 @@ export default function Step3({ onSelectionChange }: Step3Props) {
         </div>
         <div
           onClick={() => setSelectedDifficulty("expert")}
-          className={`size-50 flex flex-col gap-1 items-center justify-center text-2xl border-2 rounded-2xl ${getCardStyle(
+          className={`w-full sm:size-50 h-32 sm:h-auto flex flex-col gap-1 items-center justify-center text-xl sm:text-2xl border-2 rounded-2xl ${getCardStyle(
             "expert"
           )}`}
         >
@@ -90,7 +90,7 @@ export default function Step3({ onSelectionChange }: Step3Props) {
             {Array.from({ length: 3 }).map((_, index) => (
               <StarIcon
                 key={index}
-                size={32}
+                size={28}
                 weight="fill"
                 fill={getStarColor("expert")}
               />

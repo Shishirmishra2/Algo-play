@@ -162,12 +162,12 @@ export default function Quiz() {
   }
 
   return (
-    <div className="min-h-screen text-white p-8 pb-24">
+    <div className="min-h-screen text-white p-4 sm:p-8 pb-24">
       <div className="max-w-[100vh] mx-auto">
         {quizState === "idle" ? (
           <div className="flex items-center justify-center min-h-[70vh]">
             <div className="text-center space-y-8 max-w-2xl mx-auto">
-              <h1 className="text-7xl font-retro bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent">
+              <h1 className="text-5xl sm:text-7xl font-retro bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent">
                 Quiz Challenge
               </h1>
               <p className="text-2xl text-gray-300 font-medium">
@@ -243,7 +243,7 @@ export default function Quiz() {
           <>
             <div className="flex justify_between items-center mb-8">
               <div>
-                <h1 className="text-6xl font-retro">Quiz</h1>
+                <h1 className="text-4xl sm:text-6xl font-retro">Quiz</h1>
                 <p className="text-xl">{subjectDisplay}</p>
               </div>
               <Badge

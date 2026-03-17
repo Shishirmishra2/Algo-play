@@ -23,7 +23,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`max-w-lg mx-auto antialiased bg-gradient-to-b from-[#010101] to-[#270035] min-h-screen font-sans ${insans.variable}`}>
+        className={`w-full sm:max-w-lg sm:mx-auto antialiased bg-gradient-to-b from-[#010101] to-[#270035] min-h-screen font-sans ${insans.variable}`}>
         {children}
         <Toaster />
       </body>
