@@ -97,10 +97,17 @@ export default function SolvePage() {
     }
   };
 
-  const handleMarkSolved = () => {
+  const handleMarkSolved = async () => {
+    if (solved[currentIdx]) return; // already marked
     const updated = [...solved];
     updated[currentIdx] = true;
     setSolved(updated);
+    // Save to Supabase
+    fetch("/api/progress/update", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ type: "problem", problemCount: 1 }),
+    }).catch(console.error);
   };
 
   const currentProblem = problems[currentIdx];

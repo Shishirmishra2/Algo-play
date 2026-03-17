@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -25,6 +25,7 @@ export default function QuizResults() {
   const [totalQuestions, setTotalQuestions] = useState(0);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
+  const savedRef = useRef(false);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -35,9 +36,19 @@ export default function QuizResults() {
           if (parsedResults.length > 0) {
             setResults(parsedResults);
             setTotalQuestions(parsedResults.length);
-            setScore(parsedResults.filter((r) => r.isCorrect).length);
+            const correctCount = parsedResults.filter((r) => r.isCorrect).length;
+            setScore(correctCount);
             localStorage.removeItem("quizResults");
             setLoading(false);
+            // Save to Supabase (once)
+            if (!savedRef.current) {
+              savedRef.current = true;
+              fetch("/api/progress/update", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ type: "quiz", correct: correctCount, total: parsedResults.length }),
+              }).catch(console.error);
+            }
             return;
           }
         } catch (error) {
